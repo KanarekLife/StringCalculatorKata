@@ -43,4 +43,15 @@ public class StringCalculatorTests
         
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void Should_ReturnSumOfMoreNumbersSeparatedByComma()
+    {
+        const string input = "1,2,3,4,5,6";
+        const int expected = 21;
+
+        var actual = _calculator.Add(input);
+        
+        Assert.Equal(expected, actual);
+    }
 }
