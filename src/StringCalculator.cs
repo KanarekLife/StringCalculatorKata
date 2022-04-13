@@ -18,10 +18,19 @@ public class StringCalculator : IStringCalculator
             lines = lines[1..];
         }
 
-        return lines
-            .Aggregate((a,b) => $"{a}\n{b}")
+        var values = lines
+            .Aggregate((a, b) => $"{a}\n{b}")
             .Split(delimiters, StringSplitOptions.TrimEntries)
             .Select(str => Convert.ToInt32(str))
-            .Sum();
+            .ToArray();
+
+        var negativeValues = values.Where(value => value < 0).ToArray();
+
+        if (negativeValues.Length > 0)
+        {
+            throw new NegativesNotAllowedException(negativeValues);
+        }
+
+        return values.Sum();
     }
 }

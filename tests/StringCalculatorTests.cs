@@ -76,4 +76,38 @@ public class StringCalculatorTests
         
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void Should_ThrowError_WhenSingleNegativeNumberIsPassed()
+    {
+        const string input = "-5, 10";
+
+        Assert.Throws<NegativesNotAllowedException>(() => _calculator.Add(input));
+        
+        try
+        {
+            _calculator.Add(input);
+        }
+        catch (NegativesNotAllowedException exception)
+        {
+            Assert.Equal(new [] {-5}, exception.NegativeNumbersPassed);
+        }
+    }
+
+    [Fact]
+    public void Should_ThrowError_WhenMultipleNegativeNumbersArePassed()
+    {
+        const string input = "-5,-10,-20";
+
+        Assert.Throws<NegativesNotAllowedException>(() => _calculator.Add(input));
+
+        try
+        {
+            _calculator.Add(input);
+        }
+        catch (NegativesNotAllowedException exception)
+        {
+            Assert.Equal(new [] {-5, -10, -20}, exception.NegativeNumbersPassed);
+        }
+    }
 }
