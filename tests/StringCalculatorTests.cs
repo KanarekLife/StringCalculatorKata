@@ -143,5 +143,15 @@ public class StringCalculatorTests
         
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void Should_AllowMultipleDelimitersWithAnyLength()
+    {
+        const string input = "//[***][%L]\n1***2%L3";
+        const int expected = 6;
+
+        var actual = _calculator.Add(input);
         
+        Assert.Equal(expected, actual);
+    }
 }
