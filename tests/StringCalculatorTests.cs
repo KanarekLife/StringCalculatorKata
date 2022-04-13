@@ -110,4 +110,15 @@ public class StringCalculatorTests
             Assert.Equal(new [] {-5, -10, -20}, exception.NegativeNumbersPassed);
         }
     }
+
+    [Fact]
+    public void Should_IgnoreNumbersBiggerThan1000()
+    {
+        const string input = "2,1001";
+        const int expected = 2;
+
+        var actual = _calculator.Add(input);
+        
+        Assert.Equal(expected, actual);
+    }
 }

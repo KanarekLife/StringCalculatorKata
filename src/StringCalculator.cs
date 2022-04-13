@@ -31,6 +31,8 @@ public class StringCalculator : IStringCalculator
             throw new NegativesNotAllowedException(negativeValues);
         }
 
-        return values.Sum();
+        return values
+            .Where(value => value < 1001)
+            .Sum();
     }
 }
