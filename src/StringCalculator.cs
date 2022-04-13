@@ -9,8 +9,18 @@ public class StringCalculator : IStringCalculator
             return 0;
         }
 
-        return numbers
-            .Split(',', '\n')
+        var lines = numbers.Split('\n');
+        var delimiters = new [] { ",", "\n" };
+        
+        if (lines[0].StartsWith("//"))
+        {
+            delimiters = new[] { lines[0][2..] };
+            lines = lines[1..];
+        }
+
+        return lines
+            .Aggregate((a,b) => $"{a}\n{b}")
+            .Split(delimiters, StringSplitOptions.TrimEntries)
             .Select(str => Convert.ToInt32(str))
             .Sum();
     }

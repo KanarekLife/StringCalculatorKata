@@ -65,4 +65,15 @@ public class StringCalculatorTests
         
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void Should_AllowToChangeDelimiter()
+    {
+        const string input = "//;\n1;2";
+        const int expected = 3;
+
+        var actual = _calculator.Add(input);
+        
+        Assert.Equal(expected, actual);
+    }
 }
