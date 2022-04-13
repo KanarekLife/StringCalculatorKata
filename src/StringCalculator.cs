@@ -10,7 +10,7 @@ public class StringCalculator : IStringCalculator
         }
 
         return numbers
-            .Split(',')
+            .Split(',', '\n')
             .Select(str => Convert.ToInt32(str))
             .Sum();
     }
