@@ -121,4 +121,15 @@ public class StringCalculatorTests
         
         Assert.Equal(expected, actual);
     }
+
+    [Fact]
+    public void Should_AcceptDelimitersWithAnyLength()
+    {
+        const string input = "//[***]\n1***2***3";
+        const int expected = 6;
+
+        var actual = _calculator.Add(input);
+        
+        Assert.Equal(expected, actual);
+    }
 }

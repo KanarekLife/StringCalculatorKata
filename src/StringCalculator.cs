@@ -1,4 +1,6 @@
-﻿namespace StringCalculatorKata;
+﻿using System.Text;
+
+namespace StringCalculatorKata;
 
 public class StringCalculator : IStringCalculator
 {
@@ -10,17 +12,50 @@ public class StringCalculator : IStringCalculator
         }
 
         var lines = numbers.Split('\n');
-        var delimiters = new [] { ",", "\n" };
+        var delimiters = new List<string> { ",", "\n" };
         
         if (lines[0].StartsWith("//"))
         {
-            delimiters = new[] { lines[0][2..] };
+            var header = lines[0];
+            delimiters = new List<string>();
+            var openBracket = true;
+            var anyBracketOpened = false;
+            var delimiterBuilder = new StringBuilder();
+            for (var i = 2; i < header.Length; i++)
+            {
+                switch (header[i])
+                {
+                    case '[':
+                        openBracket = true;
+                        anyBracketOpened = true;
+                        break;
+                    case ']':
+                        openBracket = false;
+                        delimiters.Add(delimiterBuilder.ToString());
+                        delimiterBuilder.Clear();
+                        break;
+                    default:
+                    {
+                        if (openBracket)
+                        {
+                            delimiterBuilder.Append(header[i]);
+                        }
+
+                        break;
+                    }
+                }
+            }
+
+            if (!anyBracketOpened)
+            {
+                delimiters.Add(delimiterBuilder.ToString());
+            }
             lines = lines[1..];
         }
 
         var values = lines
             .Aggregate((a, b) => $"{a}\n{b}")
-            .Split(delimiters, StringSplitOptions.TrimEntries)
+            .Split(delimiters.ToArray(), StringSplitOptions.TrimEntries)
             .Select(str => Convert.ToInt32(str))
             .ToArray();
 
